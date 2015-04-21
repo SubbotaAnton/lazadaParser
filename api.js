@@ -1,34 +1,40 @@
-var Hapi = require('hapi');
+var Hapi = require('hapi'),
+    http = require('http'),
+    utils = require('./utils');
 
-// Create a server with a host and port
-var server = new Hapi.Server();
+
+var server = new Hapi.Server({
+    connections: {
+        router: {
+            stripTrailingSlash: true
+        }
+    }
+});
+
 server.connection({
     host: 'localhost',
     port: 8000
 });
 
-
 server.route({
     method: 'GET',
     path: '/link/{url}',
     handler: function (request, reply) {
-        reply('Hello ' + encodeURIComponent(request.params.url) + '!');
+        var url = encodeURIComponent(request.params.url);
+        // TODO check, is it correct URL
+        if (url) {
+            utils.loadHTML(url, function (data) {
+                reply({
+                    resultCode : 'OK',
+                    payload : data
+                })
+            });
+        } else {
+            reply({
+                errorMessage : "Need url"
+            });
+        }
     }
 });
 
-// Start the server
 server.start();
-
-var jsdom = require("jsdom-nogyp");
-
-jsdom.env({
-    url: "http://www.lazada.vn/lg-optimus-g3-16gb-vang-dong-301084.html",
-    done: function (errors, window) {
-        var $ = window.$;
-        console.log("HN Links");
-        console.log(window.document.getElementById("order_tracking"));
-    }
-});
-
-// http://habrahabr.ru/post/210166/
-// http://stackoverflow.com/questions/7977945/html-parser-on-node-js
