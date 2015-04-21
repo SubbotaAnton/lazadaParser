@@ -20,14 +20,19 @@ server.route({
     method: 'GET',
     path: '/link/{url}',
     handler: function (request, reply) {
-        var url = encodeURIComponent(request.params.url);
-        // TODO check, is it correct URL
+        var url = decodeURIComponent(request.params.url);
         if (url) {
-            utils.loadHTML(url, function (data) {
-                reply({
-                    resultCode : 'OK',
-                    payload : data
-                })
+            utils.loadHTML(url, function (error, data) {
+                if (error) {
+                    reply({
+                        errorMessage : error.msg
+                    });
+                } else {
+                    reply({
+                        resultCode: 'OK',
+                        payload: data
+                    })
+                }
             });
         } else {
             reply({
