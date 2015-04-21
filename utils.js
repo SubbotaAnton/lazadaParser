@@ -10,11 +10,11 @@ function loadHTML(url, callback) {
 
         fs.readFile('./mocks/lazada_' + url + '.html', 'utf8', function (err, html) {
             if (err) {
-                callback({msg : 'cannot read a file'});
+                return callback({msg : 'cannot read a file'});
             }
 
             page = new PageParser(html, lazadaPageConfig);
-            callback(null, page.getData());
+            return callback(null, page.getData());
         });
 
     } else {
@@ -23,10 +23,10 @@ function loadHTML(url, callback) {
 
             if (!error && response.statusCode == 200) {
                 page = new PageParser(html, lazadaPageConfig);
-                callback(null, page.getData());
+                return callback(null, page.getData());
 
             } else {
-                callback({msg : 'cannot read url'});
+                return callback({msg : 'cannot read url'});
             }
 
         });
