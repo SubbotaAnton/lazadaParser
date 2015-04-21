@@ -19,6 +19,9 @@ server.connection({
 server.route({
     method: 'GET',
     path: '/link/{url}',
+    config: {
+        cors: true
+    },
     handler: function (request, reply) {
         var url = decodeURIComponent(request.params.url);
         if (url) {
