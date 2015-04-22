@@ -1,12 +1,12 @@
 Compare Lazada's products
 
-1. Clone this project in your directory.
+1. Clone this project to your directory.
 
 2. Use 'npm install' to install dependencies.
 
-3. Start API - 'node app.js'
+3. To start API use 'node app.js'
 
-4. Start application - 'node api.js'
+4. To start application use 'node api.js'
 
 Comments :
 
