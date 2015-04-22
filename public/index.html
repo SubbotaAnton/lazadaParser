@@ -25,7 +25,7 @@
 <div class="container">
 
     <div class="page-header">
-        <h1>Comparative table of specifications of Lazada products</h1>
+        <h1>Compare Lazada products</h1>
     </div>
 
     <form class="navbar-form formURLComparative" role="search">
@@ -33,13 +33,13 @@
             <div class="col-lg-6">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">URL</span>
-                    <input type="text" class="form-control" placeholder="URL" aria-describedby="sizing-addon1">
+                    <input type="text" data-validate-type="url" class="form-control" placeholder="URL" aria-describedby="sizing-addon1">
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-6">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon2">URL</span>
-                    <input type="text" class="form-control" placeholder="URL" aria-describedby="sizing-addon2">
+                    <input type="text" data-validate-type="url" class="form-control" placeholder="URL" aria-describedby="sizing-addon2">
                 </div>
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
@@ -47,36 +47,23 @@
     </form>
 
 
-    <h3>Three unequal columns</h3>
-    <p>Get three columns <strong>starting at desktops and scaling to large desktops</strong> of various widths. Remember, grid columns should add up to twelve for a single horizontal block. More than that, and columns start stacking no matter the viewport.</p>
-    <div class="row">
-        <div class="col-md-3">.col-md-3</div>
-        <div class="col-md-6">.col-md-6</div>
-        <div class="col-md-3">.col-md-3</div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">.col-md-3</div>
-        <div class="col-md-6">.col-md-6</div>
-        <div class="col-md-3">.col-md-3</div>
-    </div>
+    <h3>Compare table</h3>
 
+    <div class="comparative-table comparativeTable"></div>
     <script data-template-name="comparativeTable" type="text/x-handlebars-template">
 
-        <div class="comparative-table">
-
-            {{#each data}}
+            {{#each this}}
 
             <div class="row">
-                <div class="col-md-3">.col-md-3</div>
-                <div class="col-md-6">.col-md-6</div>
-                <div class="col-md-3">.col-md-3</div>
+                <div class="col-md-3">{{this.name}}</div>
+                <div class="col-md-6">{{this.value1}}</div>
+                <div class="col-md-3">{{this.value2}}</div>
             </div>
 
             {{/each}}
 
-        </div>
-
     </script>
+
 
 
 

@@ -1,29 +1,30 @@
 $(function () {
 
     var form = {
-        config : {
-            error: {
-                // TODO
-            }
+        validation : {
+            url:  /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
         },
 
         attachHandlers : function () {
+            var $inputs = this.$wrapper.find('input:not([type="hidden"]):not([type="submit"])');
 
-            this.$wrapper.on('submit', function (e) {
-                if (this.isValid()) {
-                    this.submitData()
-                        .done(function (data) {
-                            comparativeTable.init(data, data);
-                            // TODO
-                        })
-                        .fail(function (error) {
-                            console.log(error);
-                            // TODO
-                        });
-                }
-                e.preventDefault();
-            }.bind(this));
+            this.$wrapper.on('submit', this.formSubmit.bind(this));
+            $inputs.on('blur', this.removeError)
 
+        },
+
+        formSubmit : function (e) {
+            e.preventDefault();
+            if (this.isValid()) {
+                comparativeTable.empty();
+                this.submitData()
+                    .done(function (data) {
+                        comparativeTable.render(data, data);
+                    })
+                    .fail(function (error) {
+                        // some
+                    });
+            }
         },
 
         init : function ($wrapper) {
@@ -31,8 +32,33 @@ $(function () {
             this.attachHandlers();
         },
 
+        checkEl : function ($el) {
+            var typeValid = $el.data('validate-type'),
+                rule  = this.validation[typeValid],
+                value = $el.val(),
+                result = value && (!rule || rule.test(value));
+
+            if (!result) {
+                $el.addClass('error');
+            }
+
+            return result;
+        },
+
+        removeError : function (e) {
+            $(e.currentTarget).removeClass('error');
+        },
+
         isValid : function () {
-            return true;
+            var valid = true;
+
+            this.$wrapper.find('input:not([type="hidden"]):not([type="submit"])').each(function (index, el) {
+                var $el = $(el);
+
+                valid &= this.checkEl($el);
+            }.bind(this));
+
+            return valid;
             // TODO
         },
 
@@ -54,13 +80,35 @@ $(function () {
 
     var comparativeTable = {
         merge : function (data1, data2) {
-            return data; // TODO
-        },
-        render : function () {
+            var data = {},
+                key;
 
+            for (key in data1) {
+                data[key] = {
+                    name : data1[key].name,
+                    value1 : data1[key].value,
+                    value2 : ''
+                }
+            }
+
+            for (key in data2) {
+                data[key] = data[key] || {};
+                data[key].value1 = data[key].value1 || '';
+                data[key].value2 = data2[key].value
+            }
+
+            return data;
         },
-        init : function (data1, data2) {
-            this.render(this.merge(data1, data2));
+        empty : function () {
+            this.render({}, {});
+        },
+        render : function (data1, data2) {
+            var source = $('[data-template-name="comparativeTable"]').html(),
+                template = Handlebars.compile(source),
+                context = this.merge(data1, data2),
+                html    = template(context);
+
+            $('.comparativeTable').html(html);
         }
     };
 

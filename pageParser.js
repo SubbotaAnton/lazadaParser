@@ -16,7 +16,7 @@ PageParser.prototype = {
 
     getData : function () {
         var key, item, value,
-            result = [],
+            result = {},
             $ = cheerio.load(this.html);
 
         for (key in this.config) {
@@ -25,11 +25,10 @@ PageParser.prototype = {
                 try {
                     value = item.value($);
                 } catch (e) {}
-                result.push({
-                    key : key,
+                result[key] = {
                     name : item.name,
                     value : value
-                });
+                };
             }
         }
 
