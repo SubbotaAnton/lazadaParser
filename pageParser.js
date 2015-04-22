@@ -27,6 +27,7 @@ PageParser.prototype = {
                 } catch (e) {}
                 result[key] = {
                     name : item.name,
+                    type : item.type,
                     value : value
                 };
             }

@@ -45,31 +45,31 @@
                 </div>
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
-        <button type="submit" class="btn btn-default">Submit</button>
+        <div class="row">
+            <div class="col-lg-6">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
     </form>
 
-
-    <h3>Compare table</h3>
-
     <div class="comparative-table comparativeTable"></div>
+
     <script data-template-name="comparativeTable" type="text/x-handlebars-template">
 
-            {{#each this}}
+        <h3>Compare table</h3>
+        <table class="table">
+        {{#each this}}
 
-            <div class="row">
-                <div class="col-md-1">{{this.name}}</div>
-                <div class="col-md-3">{{this.value1}}</div>
-                <div class="col-md-3">{{this.value2}}</div>
-            </div>
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{{colorfulValue this.value1}}}</td>
+            <td>{{{colorfulValue this.value2}}}</td>
+        </tr>
 
-            {{/each}}
+        {{/each}}
+        </table>
 
     </script>
-
-    <!--http://getbootstrap.com/components/-->
-
-
-
 
 </div>
 

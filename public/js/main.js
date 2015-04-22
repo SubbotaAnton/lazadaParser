@@ -1,5 +1,28 @@
 $(function () {
 
+    Handlebars.registerHelper('colorfulValue', function (value) {
+        var result, i;
+
+        switch (this.type) {
+            case 'list' :
+                result = '<ul>';
+                for (i = 0; i < value.length; i++) {
+                    result += '<li>' + value[i] + '</li>';
+                }
+                result += '</ul>';
+                return result;
+
+            case 'img' :
+                return '<img src="' + value + '" />';
+
+            case 'text' :
+                return value;
+
+            default:
+                return value;
+        }
+    });
+
     var form = {
         validation : {
             url:  /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/
@@ -22,6 +45,7 @@ $(function () {
                         comparativeTable.render(data1, data2);
                     })
                     .fail(function (error) {
+                        console.log('something was go absolutely wrong');
                         // some
                     });
             }
@@ -88,20 +112,23 @@ $(function () {
     var comparativeTable = {
         merge : function (data1, data2) {
             var data = {},
-                key;
+                key, item;
 
             for (key in data1) {
+                item = data1[key];
                 data[key] = {
-                    name : data1[key].name,
-                    value1 : data1[key].value,
+                    name : item.name,
+                    type : item.type,
+                    value1 : item.value,
                     value2 : ''
                 }
             }
 
             for (key in data2) {
+                item = data2[key];
                 data[key] = data[key] || {};
                 data[key].value1 = data[key].value1 || '';
-                data[key].value2 = data2[key].value
+                data[key].value2 = item.value
             }
 
             return data;
