@@ -33,13 +33,15 @@
             <div class="col-lg-6">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon1">URL</span>
-                    <input type="text" data-validate-type="url" class="form-control" placeholder="URL" aria-describedby="sizing-addon1">
+                    <input type="text" data-validate-type="url" class="form-control" id="url1"
+                           placeholder="URL" aria-describedby="sizing-addon1">
                 </div>
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-6">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon" id="sizing-addon2">URL</span>
-                    <input type="text" data-validate-type="url" class="form-control" placeholder="URL" aria-describedby="sizing-addon2">
+                    <input type="text" data-validate-type="url" class="form-control" id="url2"
+                           placeholder="URL" aria-describedby="sizing-addon2">
                 </div>
             </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
@@ -55,14 +57,16 @@
             {{#each this}}
 
             <div class="row">
-                <div class="col-md-3">{{this.name}}</div>
-                <div class="col-md-6">{{this.value1}}</div>
+                <div class="col-md-1">{{this.name}}</div>
+                <div class="col-md-3">{{this.value1}}</div>
                 <div class="col-md-3">{{this.value2}}</div>
             </div>
 
             {{/each}}
 
     </script>
+
+    <!--http://getbootstrap.com/components/-->
 
 
 

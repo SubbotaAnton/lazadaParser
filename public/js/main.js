@@ -18,8 +18,8 @@ $(function () {
             if (this.isValid()) {
                 comparativeTable.empty();
                 this.submitData()
-                    .done(function (data) {
-                        comparativeTable.render(data, data);
+                    .done(function (data1, data2) {
+                        comparativeTable.render(data1, data2);
                     })
                     .fail(function (error) {
                         // some
@@ -59,13 +59,20 @@ $(function () {
             }.bind(this));
 
             return valid;
-            // TODO
         },
 
         submitData : function () {
-            var deferred = $.Deferred();
+            var url1 = encodeURIComponent($('#url1').val()),
+                url2 = encodeURIComponent($('#url2').val());
 
-            $.getJSON('http://localhost:8000/link/1', function (response) {
+            return $.when(this.getData(url1), this.getData(url2));
+        },
+
+        getData : function (url) {
+            var deferred = $.Deferred(),
+                API = 'http://localhost:8000/link/';
+
+            $.getJSON(API + url, function (response) {
                 if (response && response.resultCode === 'OK' && response.payload) {
                     deferred.resolve(response.payload)
                 } else {
